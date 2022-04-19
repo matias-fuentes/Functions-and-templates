@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+
+tr:nth-of-type(odd) {
+    background-color: rgb(238, 242, 241);
+}
+
+td {
+    text-align: center;
+    padding: 0.8rem 0rem;
+    font-size: 1.2rem;
+}
+
+@media (min-width: 1024px) and (min-aspect-ratio: 13/9) {
+    th > .edge-td-container {
+        height: 4.8rem;
+    }
+    
+    td {
+        padding: 0;
+    }
+}

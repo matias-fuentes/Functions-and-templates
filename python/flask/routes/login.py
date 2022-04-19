@@ -1,36 +1,48 @@
-from helpers import userOrEmail
-from Flask import session, request, redirect, render_template
-from re import fullmatch
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # Forget any user_id
+    # Forget any userId
     session.clear()
 
     if request.method == "POST":
-        search = request.form.get("search")
-        if search:
-            return redirect(f"/search?q={search}")
-
         user = request.form.get("user")
         password = request.form.get("password")
 
+        errorMessage = 'The email or password are incorrect. Please, try again.'
         # We can log in either with our username or with our email.
         # If there's an '@' in user, that means that we're dealing with an email.
         if '@' in user:
-            user = user.lower()
+            user = user.lower() 
 
-            if len(user) < 6 or len(user) > 64:
-                return render_template("login.html", error=True)
+            if (len(user) < 6 or len(user) > 64) or not fullmatch(emailRegEx, user):
+                return render_template("login.html", errorMessage=errorMessage), 401
 
-            elif not fullmatch(emailRegEx, user):
-                return render_template("login.html", error=True)
+            try:
+                connection = pool.get_connection()
+                cursor = connection.cursor()
+            except:
+                errorMessage = 'An error has occurred while establishing a connection with the database. Please, try again.'
+                return render_template("login.html", errorMessage=errorMessage), 500
 
-            return userOrEmail(True, user, password, passRegEx, session, db)
+            validUser, message = validateUser(True, user, password, passRegEx, session, cursor, connection)
+            if (validUser):
+                redirect("/")
+            else:
+                return render_template("login.html", errorMessage=message), 401
 
         elif not fullmatch(userRegEx, user):
-            return render_template("login.html", error=True)
+            return render_template("login.html", errorMessage=errorMessage), 401
 
-        return userOrEmail(False, user, password, passRegEx, session, db)
+        try:
+            connection = pool.get_connection()
+            cursor = connection.cursor()
+        except:
+            errorMessage = 'An error has occurred while establishing a connection with the database. Please, try again.'
+            return render_template("login.html", errorMessage=errorMessage), 500
 
-    return render_template("login.html")
+        validUser, message = validateUser(True, user, password, passRegEx, session, cursor, connection)
+        if (validUser):
+            redirect("/")
+        else:
+            return render_template("login.html", errorMessage=message), 401
+
+    return render_template("login.html"), 200

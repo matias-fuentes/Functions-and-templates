@@ -1,0 +1,7 @@
+h5py
+pipdeptree
+typing-extensions
+virtualenv
+virtualenv-clone
+virtualenvwrapper
+wheel

@@ -1,5 +1,5 @@
 from Flask import request, redirect
 
-def searchPost():
+def searchQuery():
     search = request.form.get("search")
     return redirect(f"/search?q={search}")

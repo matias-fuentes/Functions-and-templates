@@ -1,7 +1,5 @@
-from Flask import session, redirect
-
 @app.route("/logout")
 def logout():
-    # Forget any user_id
+    # Forget any userId
     session.clear()
     return redirect("/")

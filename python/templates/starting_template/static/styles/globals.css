@@ -1,0 +1,167 @@
+/* General selectors */
+
+:root {
+    font-size: 62.5%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgb(230, 230, 228);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: rgb(0, 120, 215);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+header {
+    height: 8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid {{ headerBorderBottomColor }};
+}
+
+header > a {
+    display: none;
+}
+
+main {
+    background-color: {{ mainBg }};
+    padding-top: 4.8rem;
+    overflow: hidden;
+}
+
+main > * {
+    margin-bottom: 1.6rem;
+}
+
+footer {
+    padding: 1.6rem;
+    line-height: 1.2rem;
+    border-top: 1px solid {{ footerBorderTopColor }};
+}
+
+input::placeholder {
+    font-size: 1.2rem !important;
+}
+
+hr {
+    border-top: 1px solid rgba(0, 0, 0, .25);
+}
+
+table {
+    width: 100%;
+}
+
+tr:nth-of-type(odd) {
+    background-color: rgb(238, 242, 241);
+}
+
+td {
+    text-align: center;
+    padding: 0.8rem 0rem;
+    font-size: 1.2rem;
+}
+
+/* Reusable classes */
+
+.flex-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.btn {
+    width: 9.6rem;
+    padding: 0.96rem 1.92rem;
+    font-weight: bold;
+    border-radius: 0.4rem;
+    font-size: 1.2rem;
+    color: {{ color }};
+    background-color: {{ bgColor }};
+    border: none;
+    text-align: center;
+}
+
+.btn:hover, .btn-primary:hover {
+    transition: all .5s;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: {{ hoverBgColor }};
+}
+
+.btn-primary {
+    background-color: {{ bgPrimaryColor }} !important;
+    color: {{ primaryColor }} !important;
+}
+
+.btn-primary:hover {
+    background-color: {{ bgHoverPrimaryColor }} !important;
+}
+
+
+.w100 {
+    width: 100%;
+}
+
+.marg-0 {
+    margin: 0;
+}
+
+@media (max-width: 1024px) and (orientation: landscape) and (min-aspect-ratio: 13/9) {
+    header {
+        padding: 0rem 6rem; 
+    }
+}
+
+@media (min-width: 1024px) and (min-aspect-ratio: 13/9) {
+    input {
+        width: 40%;
+        height: 4rem;
+    }
+
+    header {
+        padding: 0 12rem;
+    }
+
+    header > a {
+        display: block;
+    }
+
+    main {
+        padding-top: 3.2rem;
+    }
+
+    th > .edge-td-container {
+        height: 4.8rem;
+    }
+
+    td {
+        padding: 0;
+    }
+}
+
+@media (min-width: 1920px) {
+    header {
+        padding: 0 36rem;
+    }
+
+    main {
+        padding: 3.2rem 24rem 0rem 24rem;
+    }
+}

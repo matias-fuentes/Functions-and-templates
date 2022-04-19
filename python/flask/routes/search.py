@@ -1,12 +1,21 @@
-from helpers import getUser, searchPost, query
-from Flask import render_template, request
-
 @app.route("/search", methods=["GET", "POST"])
 def search():
-    username = getUser(db)['username']
     if request.method == "POST":
-        return searchPost()
+        return searchQuery()
+    else:
+        try:
+            errorMessage = 'An error has occurred while establishing a connection with the database. Please, try again.'
+            connection = pool.get_connection()
+            cursor = connection.cursor()
 
-    q = request.args.get('q')
-    response = query(q, url)
-    return render_template("search.html")
+            username = getUsername(cursor)
+            connection.close()
+
+            if not username:
+                raise Exception(errorMessage)
+        except:
+            return render_template("search.html", errorMessage=errorMessage), 500
+
+        q = request.args.get('q')
+        response = query(q)
+        return render_template("search.html", response=response, userId=session.get("userId"), username=username)
